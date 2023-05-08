@@ -1,0 +1,91 @@
+	#bot-nome {
+		background:none;
+		font-size:x-large;
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+  
+    .bot-area {
+		min-width: 300px;
+		text-align:center;
+		background-color:darkviolet;
+		padding-top:5px;
+		padding-left:5px;
+		padding-right:5px;
+		border-top:5px;
+		border-radius: 20px;
+		z-index: 1;
+		position: fixed;
+		top: 102%;
+  		left: 99%;
+  		transform: translate(-99%, -102%);
+	}
+	
+	@media screen and (max-width:480px) {
+    	.bot-area {
+			z-index: 1;
+			position: fixed;
+			top: 102%;
+  			left: 50%;
+  			transform: translate(-50%, -102%);
+		}
+	}
+	
+
+header{
+    background-color: rgb(51, 88, 162);
+    height: 80px;
+}
+
+.imagemprovisoria{
+    margin-left: 6%;
+    width: 5%;
+    height: 90%;
+  }
+
+  .divcontato
+{
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+ a.Contato{
+  
+    bottom:0;
+    width:100%;
+    height:8%;
+    font-size: 160%;  
+    color: black;
+    text-align: center;
+    margin-top: 1%;
+    
+     text-decoration: underline;
+   }
+   .cliqueaqui{
+    text-decoration: underline;
+    font-size: 120%;
+    color: black;
+
+   }
+   
+   #criarconta{
+    display: inline-block;
+   }
+   #login{
+       margin-top: 7%;
+   }
+
+
+   @media screen and (max-width:800px) {
+
+    .imagemprovisoria{
+        margin-left: 6%;
+        width: 15%;
+        height: 90%;
+        margin-top: 1%;
+      }
+
+
+   }

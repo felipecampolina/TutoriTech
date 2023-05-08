@@ -1,0 +1,54 @@
+function goBack() {
+    window.history.back()
+}
+
+function logoutUser () {
+    usuarioCorrente = {};
+    sessionStorage.setItem ('usuarioCorrente', JSON.stringify (usuarioCorrente));
+    window.location = LOGIN_URL;
+}
+
+testarLoginUser();
+colocarSair();
+
+function colocarSair(){
+    let tipo = JSON.parse(sessionStorage.getItem('usuarioCorrente')).tipo;
+    let nomeUsu = "";
+
+    let textoNome;
+    
+    if (tipo == "user")
+    {
+        nomeUsu = JSON.parse(sessionStorage.getItem('usuarioCorrente')).nome;
+    } else if (tipo == "adm")
+    {
+        nomeUsu = JSON.parse(sessionStorage.getItem('usuarioCorrente')).usuario;
+    }
+    
+    textoNome = `<p>${nomeUsu} | <a onclick="logoutUser()" href="/inicio-login/login.html">Sair</a></p>`;
+
+    document.querySelector('#insertSair').innerHTML = textoNome;
+}
+
+
+
+function testarLoginUser ()
+{
+    let tipoUsuarioLogado = " ";
+
+    if (sessionStorage.getItem('usuarioCorrente') != null )
+    {
+        tipoUsuarioLogado = JSON.parse(sessionStorage.getItem('usuarioCorrente')).tipo;
+    }
+
+    if (sessionStorage.getItem('usuarioCorrente') != null )
+    {
+        if (tipoUsuarioLogado != "user" && tipoUsuarioLogado != "adm"){
+            alert("Você não tem acesso a essa página.");
+            window.location = "/inicio-login/login.html";
+        }
+    } else {
+        alert("Você não tem acesso a essa página.");
+        window.location = "/inicio-login/login.html";
+    }
+}

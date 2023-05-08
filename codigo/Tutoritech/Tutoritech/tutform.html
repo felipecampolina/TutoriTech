@@ -1,0 +1,83 @@
+<html>
+<head>
+<meta content="text/html; charset = UTF-8" http-equiv="content-type">
+
+<title>Controle de Tutorial</title>
+</head>
+
+<script type="text/javascript">
+
+function confirmarDeleteTutorial(id, tutorial) {  
+	
+    if (confirm('Confirmar a exclusão da categoria [' + tutorial + '] (ID ' + id + ')')) {  
+        location.href = '/tutorial/delete/:' + id;
+    }
+}
+
+function onLoad() {
+    if(document.getElementById("msg").value != ""){
+      alert(document.getElementById("msg").value);
+    }
+}
+</script>
+
+
+<body onload="onLoad()">
+	<h1>Controle de Tutorial</h1> <a href="/menuadm"><button>VOLTAR</button></a>
+	<input type="hidden" id="msg" name="msg" value="">
+    <UM-TUTORIAL>
+	<br>
+	<LISTAR-TUTORIAL>
+	<style>
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: white;
+}
+
+
+.input--main__style {
+	background-color: #00FF00;
+}
+
+.input--button {
+	font-weight: bold;
+	font-family: Arial;
+	font-size: medium;
+	border-color: transparent;
+	display: block;
+	margin: 0px auto;
+	margin-bottom: 10px;
+	color: white;
+}
+
+.input--register {
+	display: inline;
+}
+
+input {
+	display: block;
+	border-radius: 7px;
+	padding: 10px;
+	border-style: solid;
+	border-color: lightgray;
+	color: black;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+form p {
+	text-align: initial;
+	display: inline;
+	margin-left: 15px;
+}
+
+.p--nomargin {
+	margin-left: 0px;
+	margin-right: 10px;
+}
+</style>
+</body>
+</html>

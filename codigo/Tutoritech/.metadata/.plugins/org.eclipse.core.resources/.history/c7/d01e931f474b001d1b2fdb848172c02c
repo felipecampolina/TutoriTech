@@ -1,0 +1,111 @@
+package app;
+
+import static spark.Spark.*;
+
+import java.io.File;
+import java.util.Scanner;
+
+import dao.TutorialDAO;
+import model.Tutorial;
+import service.CategoriaService;
+import service.FrontService;
+import service.AdminService;
+import service.TutorialService;
+import service.UsuarioService;
+
+
+public class Aplicacao {
+
+	private static FrontService 	 frontService     = new FrontService();
+	private static CategoriaService  categoriaService = new CategoriaService();
+	private static AdminService      adminService     = new AdminService();
+	private static TutorialService   tutorialService  = new TutorialService();
+	private static UsuarioService    usuarioService   = new UsuarioService();
+	
+    public static void main(String[] args) {
+        port(6789);
+        
+        staticFiles.location("/public");
+        
+        get("frontend/tut-gratuitos/index.html", (request, response) -> {
+        	System.out.println("executou");
+        	String nomeArquivo = "src/main/resources/public/frontend/tut-gratuitos/index.html";
+    		File arquivo = new File(nomeArquivo);
+    		String form = "";
+    		try{
+    			Scanner entrada = new Scanner(arquivo);
+    		    while(entrada.hasNext()){
+    		    	form += (entrada.nextLine() + "\n");
+    		    }
+    		    entrada.close();
+    		}  catch (Exception e) { System.out.println(e.getMessage()); }
+    		
+    		String botoes = "";
+    		TutorialDAO tutorialDAO = new TutorialDAO();
+    		Tutorial tutorialGrat = tutorialDAO.get(8);
+    		botoes += "\t\t\t\t<div class=\"col-6\">" +
+    				  "\t\t\t\t\t<a href=\"/frontend/tutorial/index.html?id=\"" + tutorialGrat.getID() + "\"><button class=\"btn-13 custom-btn\">"+ tutorialGrat.getTitulo() +"</button></a>" +
+    				  "\t\t\t\t</div>";
+    		form = form.replaceFirst("<inserir-bot>", botoes);
+    		System.out.println(form);
+            return form;
+    });
+        
+ // -------------------------------------------------------- Categoria 
+        
+        post("/categoria/insert", (request, response) -> categoriaService.insert(request, response));
+
+        get("/categoria/:id", (request, response) -> categoriaService.get(request, response));
+        
+        get("/categoria/list/:orderby", (request, response) -> categoriaService.getAll(request, response));
+
+        get("/categoria/update/:id", (request, response) -> categoriaService.getToUpdate(request, response));
+        
+        post("/categoria/update/:id", (request, response) -> categoriaService.update(request, response));
+           
+        get("/categoria/delete/:id", (request, response) -> categoriaService.delete(request, response));
+
+ // -------------------------------------------------------- Admin
+        
+        post("/admin/insert", (request, response) -> adminService.insert(request, response));
+
+        get("/admin/:nome", (request, response) -> adminService.get(request, response));
+        
+        get("/admin/list/:orderby", (request, response) -> adminService.getAll(request, response));
+
+        get("/admin/update/:nome", (request, response) -> adminService.getToUpdate(request, response));
+        
+        post("/admin/update/:nome", (request, response) -> adminService.update(request, response));
+           
+        get("/admin/delete/:nome", (request, response) -> adminService.delete(request, response));
+        
+ // -------------------------------------------------------- Tutorial
+        
+        post("/tutorial/insert", (request, response) -> tutorialService.insert(request, response));
+
+        get("/tutorial/:id", (request, response) -> tutorialService.get(request, response));
+        
+        get("/tutorial/list/:orderby", (request, response) -> tutorialService.getAll(request, response));
+
+        get("/tutorial/update/:id", (request, response) -> tutorialService.getToUpdate(request, response));
+        
+        post("/tutorial/update/:id", (request, response) -> tutorialService.update(request, response));
+           
+        get("/tutorial/delete/:id", (request, response) -> tutorialService.delete(request, response));
+        
+ // -------------------------------------------------------- Usuario 
+        
+        post("/usuario/insert", (request, response) -> usuarioService.insert(request, response));
+
+        get("/usuario/:email", (request, response) -> usuarioService.get(request, response));
+        
+        get("/usuario/list/:orderby", (request, response) -> usuarioService.getAll(request, response));
+
+        get("/usuario/update/:email", (request, response) -> usuarioService.getToUpdate(request, response));
+        
+        post("/usuario/update/:email", (request, response) -> usuarioService.update(request, response));
+           
+        get("/usuario/delete/:email", (request, response) -> usuarioService.delete(request, response));
+             
+    }
+}

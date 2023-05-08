@@ -1,0 +1,158 @@
+package service;
+
+import java.util.List;
+import java.util.Scanner;
+import java.io.File;
+
+import dao.CategoriaDAO;
+import dao.TutorialDAO;
+import model.Categoria;
+import model.Tutorial;
+import spark.Request;
+import spark.Response;
+
+public class FrontService {
+
+	private TutorialDAO tutorialDAO = new TutorialDAO();
+	private CategoriaDAO categoriaDAO = new CategoriaDAO();
+	private String form;
+	private final int TUT_GRATUITOS = 1;
+	private final int TUTORIAL = 2;
+	private final int CAT_PREMIUM = 3;
+	private final int TIPOS_P_CADA_CATEGORIA = 4;
+	
+	
+	public FrontService() {
+		makeForm(0);
+	}
+
+	public void makeForm(int PAGINA ) {
+		if(PAGINA == TUT_GRATUITOS) {
+			String nomeArquivo = "src/main/resources/public/frontend/tut-gratuitos/index.html";
+			File arquivo = new File(nomeArquivo);
+			form = "";
+			try{
+				Scanner entrada = new Scanner(arquivo);
+				while(entrada.hasNext()){
+					form += (entrada.nextLine() + "\n");
+		    }
+			entrada.close();
+			}  catch (Exception e) { System.out.println(e.getMessage()); }
+		
+			String botoes = "";
+
+			Tutorial tutorialGrat = tutorialDAO.get(8);
+			botoes += "<div class=\"col-12\">\n" +
+					  "\t\t<a href=\"/frontend/tutorial/" + tutorialGrat.getID() + "\"><button class=\"btn-13 custom-btn\">"+ tutorialGrat.getTitulo() +"</button></a>\n" +
+					  "\t\t\t</div>\n";
+			form = form.replaceFirst("<inserir-bot>", botoes);
+		} else if (PAGINA == TUTORIAL) {
+			String nomeArquivo = "src/main/resources/public/frontend/tutorial/index.html";
+			File arquivo = new File(nomeArquivo);
+			form = "";
+			try{
+				Scanner entrada = new Scanner(arquivo);
+				while(entrada.hasNext()){
+					form += (entrada.nextLine() + "\n");
+		    }
+			entrada.close();
+			}  catch (Exception e) { System.out.println(e.getMessage()); }
+		} else if (PAGINA == CAT_PREMIUM) {
+			String nomeArquivo = "src/main/resources/public/frontend/cat-premium/index.html";
+			File arquivo = new File(nomeArquivo);
+			form = "";
+			try{
+				Scanner entrada = new Scanner(arquivo);
+				while(entrada.hasNext()){
+					form += (entrada.nextLine() + "\n");
+		    }
+			entrada.close();
+			}  catch (Exception e) { System.out.println(e.getMessage()); }
+		
+			String botoes = "";
+		
+			List<Categoria> categorias = categoriaDAO.getOrderByNome();
+			for(Categoria c : categorias) {
+			botoes += "<div class=\"col-6\">\n" +
+					  "\t\t<a href=\"/frontend/tipos-para-cada-categoria/" + c.getID() + "\"><button class=\"btn-13 custom-btn\">"+ c.getNome() +"</button></a>\n" +
+					  "\t\t\t</div>\n";
+			}
+			form = form.replaceFirst("<inserir-bot>", botoes);
+		} else if (PAGINA == TIPOS_P_CADA_CATEGORIA) {
+			String nomeArquivo = "src/main/resources/public/frontend/tipos-para-cada-categoria/index.html";
+			File arquivo = new File(nomeArquivo);
+			form = "";
+			try{
+				Scanner entrada = new Scanner(arquivo);
+				while(entrada.hasNext()){
+					form += (entrada.nextLine() + "\n");
+		    }
+			entrada.close();
+			}  catch (Exception e) { System.out.println(e.getMessage()); }
+		}
+	}
+	
+	public Object tut_gratuito(Request request, Response response) {
+    	makeForm(TUT_GRATUITOS);
+		return form;
+	}
+	
+	public Object cat_premium(Request request, Response response) {
+    	makeForm(CAT_PREMIUM);
+		return form;
+	}
+	
+	public Object tutorial(Request request, Response response) {
+        int id = Integer.parseInt(request.params(":id"));
+		Tutorial tutorial = tutorialDAO.get(id);
+        String text = "";
+		makeForm(TUTORIAL);
+		text = "        <div class=\"row\">\r\n"
+				+ "            <div class=\"col-12\">\r\n"
+				+ "                <h1 id=\"title\">Tutorial: " + tutorial.getTitulo() + "</h1>\r\n"
+				+ "            </div>\r\n"
+				+ "        </div>\r\n"
+				+ "        <div class=\"row\">\r\n"
+				+ "            <div class=\"col-12\" id=\"colTutorial\">\r\n"
+				+ "                <div id=\"divVideo\">\r\n"
+				+ "                    <iframe\r\n"
+				+ "                        width=\"560\"\r\n"
+				+ "                        height=\"315\"\r\n"
+				+ "                        src=\"" + tutorial.getUrl() + "\"\r\n"
+				+ "                        title=\"YouTube video player\"\r\n"
+				+ "                        frameborder=\"0\"\r\n"
+				+ "                        allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\"\r\n"
+				+ "                        allowfullscreen\r\n"
+				+ "                        class=\"w-100\"\r\n"
+				+ "                    ></iframe>\r\n"
+				+ "                </div>\r\n"
+				+ "                <div id=\"textoTutorial\">\r\n"
+				+ "                    <p>\r\n"
+				+ "                        " + tutorial.getTexto() + "\r\n"
+				+ "                    </p>\r\n"
+				+ "                </div>\r\n"
+				+ "            </div>\r\n"
+				+ "        </div>";
+		form = form.replaceFirst("<tutorial>", text);
+		return form;
+	}
+	
+	public Object tipos_para_cada_categoria(Request request, Response response) {
+        int id = Integer.parseInt(request.params(":id"));
+		Categoria categoria = categoriaDAO.get(id);
+		System.out.println(categoria + " " + categoria.getID());
+        String botoes = "";
+		makeForm(TIPOS_P_CADA_CATEGORIA);
+		List<Tutorial> tutoriais = tutorialDAO.getOrderByTitulo();
+		for(Tutorial t : tutoriais) {
+			if(t.getCatid() == categoria.getID()) {
+				botoes += "<div class=\"col-12\">\n" +
+						  "\t\t<a href=\"/frontend/tutorial/" + t.getID() + "\"><button class=\"btn-13 custom-btn\">"+ t.getTitulo() +"</button></a>\n" +
+						  "\t\t\t</div>\n";
+			}
+		}
+		form = form.replaceFirst("<inserir-bot>", botoes);
+		return form;
+	}
+	
+}

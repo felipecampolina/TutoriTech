@@ -1,0 +1,24 @@
+INDEX VERSION 1.131+C:\Users\l3and\Desktop\Tutoritech\.metadata\.plugins\org.eclipse.jdt.core
+2280839420.index
+1089820855.index
+4076145660.index
+440472553.index
+1865797976.index
+4074276206.index
+641626717.index
+3724583929.index
+997337125.index
+231514815.index
+859614009.index
+1596211746.index
+1784624845.index
+123960120.index
+276861135.index
+1315628484.index
+3649675327.index
+1372677264.index
+2781491258.index
+4271521777.index
+2349680916.index
+3081083397.index
+1332203938.index

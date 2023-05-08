@@ -1,0 +1,61 @@
+	#bot-nome {
+		background:none;
+		font-size:x-large;
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+  
+    .bot-area {
+		min-width: 300px;
+		text-align:center;
+		background-color:darkviolet;
+		padding-top:5px;
+		padding-left:5px;
+		padding-right:5px;
+		border-top:5px;
+		border-radius: 20px;
+		z-index: 1;
+		position: fixed;
+		top: 102%;
+  		left: 99%;
+  		transform: translate(-99%, -102%);
+	}
+	
+	@media screen and (max-width:480px) {
+    	.bot-area {
+			z-index: 1;
+			position: fixed;
+			top: 102%;
+  			left: 50%;
+  			transform: translate(-50%, -102%);
+		}
+	}
+	
+
+.text-contato
+{
+    font-size: 270%;
+    text-align: center;
+    margin-top: 5%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+body {
+    background: #e0e5ec!important;
+  }
+
+  @media screen and (max-width:800px) {
+
+ .text-contato
+ {
+    font-size: 150%;
+    text-align: center;
+    margin-top: 5%;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 10%;
+ }
+
+ 
+   }

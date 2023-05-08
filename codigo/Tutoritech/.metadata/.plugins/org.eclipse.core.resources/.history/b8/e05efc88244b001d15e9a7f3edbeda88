@@ -1,0 +1,6 @@
+package snippet;
+
+public class Snippet {
+	[qtp204109887-30] INFO spark.http.matching.MatcherFilter - The requested route [/template.css] has not been mapped in Spark for Accept: [text/css,*/*;q=0.1]
+}
+
